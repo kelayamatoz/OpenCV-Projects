@@ -36,15 +36,14 @@ int main( int argc, const char** argv )
             //     flip( frame, frameCopy, 0 );
             imshow("result", frame);
             if( waitKey( 10 ) >= 0 )
-                cvReleaseCapture( &capture );
+                break;
+                // cvReleaseCapture( &capture );
         }
-
-        waitKey(0);
+    }
 
     cvDestroyWindow("result");
-
+    cvReleaseCapture(&capture);
     return 0;
-    }
 }
 
 // // reference from http://docs.opencv.org/doc/tutorials/imgproc/shapedescriptors/moments/moments.html?highlight=moment#code
