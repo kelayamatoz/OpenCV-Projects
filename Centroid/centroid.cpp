@@ -27,17 +27,8 @@ int main( int argc, const char** argv )
         {
             IplImage* iplImg = cvQueryFrame( capture );
             frame = cvarrToMat(iplImg);
-            
-            // if( frame.empty() )
-            //     break;
-            // if( iplImg->origin == IPL_ORIGIN_TL )
-            //     frame.copyTo( frameCopy );
-            // else
-            //     flip( frame, frameCopy, 0 );
             imshow("result", frame);
-            if( waitKey( 10 ) >= 0 )
-                break;
-                // cvReleaseCapture( &capture );
+            waitKey(30);
         }
     }
 
