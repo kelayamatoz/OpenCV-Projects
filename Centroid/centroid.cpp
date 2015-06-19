@@ -4,73 +4,127 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
-#include <stdio.h>
 
 using namespace cv;
 using namespace std;
 
-Mat frameCopy, image, imgHSV;
-int thresh = 100;
-int max_thresh = 255;
-RNG rng(12345);
+// Mat frameCopy, image, imgHSV;
+// int thresh = 100;
+// int max_thresh = 255;
+// RNG rng(12345);
 
-void thresh_callback(int, void*);
+// void thresh_callback(int, void*);
+
+/* Keep the webcam from locking up when you interrupt a frame capture */
+volatile int quit_signal=0;
+#ifdef __unix__
+#include <signal.h>
+    extern "C" void quit_signal_handler(int signum) {
+    if (quit_signal!=0) exit(0); // just exit already
+    quit_signal=1;
+    printf("Will quit at next camera frame (repeat to kill now)\n");
+}
+#endif
+
 
 int main( int argc, char** argv )
 {
-    CvCapture* capture = 0;
-    int hLow = 0;
-    int hHigh = 179;
-    int sLow = 0;
-    int sHigh = 255;
-    int vLow = 0;
-    int vHigh = 255;
+    #ifdef __unix__
+       signal(SIGINT,quit_signal_handler); // listen for ctrl-C
+    #endif
 
-    capture = cvCaptureFromCAM(CV_CAP_ANY); 
-    if (!capture)
-        cout << "No Camera Detected" << endl;
+    VideoCapture cap(0);   //0 is the id of video device.0 if you have only one camera.
+ 
+    if (!cap.isOpened()) { //check if video device has been initialised
+        cout << "cannot open camera";
+        return -1;
+    }
+ 
+    namedWindow("MyVideo", CV_WINDOW_AUTOSIZE);
 
-    namedWindow("control", WINDOW_AUTOSIZE);
-    // Hue
-    cvCreateTrackbar("Hue Low", "Control", &hLow, 179);
-    cvCreateTrackbar("Hue Low", "Control", &hHigh, 179);
-    // Saturation
-    cvCreateTrackbar("Hue Low", "Control", &sLow, 255);
-    cvCreateTrackbar("Hue Low", "Control", &sHigh, 255);
-    // Value
-    cvCreateTrackbar("Hue Low", "Control", &vLow, 255);
-    cvCreateTrackbar("Hue Low", "Control", &vHigh, 255);
-
-    if (capture)
-    {
-        cout << "In capture ..." << endl;
-        for (;;)
+    //unconditional loop
+    while (true) {
+        Mat frame;
+        bool bSUccess = cap.read(frame);
+        if (quit_signal) exit(0);
+        if (!bSUccess)
         {
-            IplImage* iplImg = cvQueryFrame(capture);
-            image = cvarrToMat(iplImg);
-            if (!image.data)
-            {
-                cout << "Could not open the frame" << endl;
-                return -1;
-            }
-            // HSV filter
-            cvtColor(image, imgHSV, COLOR_BGR2HSV);
-            Mat imgFiltered;
-
-            imshow("result", imgHSV);
-            if (waitKey(10) >= 0)
-                break;
-
-            waitKey(20); // wait 30 milli-secs in total
+            cout << "Cannot read a frame from video stream" << endl;
+            break;
         }
 
+        imshow("MyVideo", frame);
+
+        // waitKey returns -1 when a key is pressed. 
+        int waitKeyResult = cvWaitKey(30);
+        cout << "-----WaitKeyResult is: " << waitKeyResult << "-----" <<  endl;
+        if (waitKeyResult != -1)
+        {
+            cout << "A key is pressed by user" << endl;
+            cout << "----------" << endl;
+            break;
+        }
     }
 
-    cvReleaseCapture(&capture);
-    cvDestroyWindow("result");
+    cvDestroyWindow("MyVideo");
 
     return 0;
 }
+
+
+//     CvCapture* capture = 0;
+//     int hLow = 0;
+//     int hHigh = 179;
+//     int sLow = 0;
+//     int sHigh = 255;
+//     int vLow = 0;
+//     int vHigh = 255;
+
+//     capture = cvCaptureFromCAM(CV_CAP_ANY); 
+//     if (!capture)
+//         cout << "No Camera Detected" << endl;
+
+//     namedWindow("control", WINDOW_AUTOSIZE);
+//     // Hue
+//     cvCreateTrackbar("Hue Low", "Control", &hLow, 179);
+//     cvCreateTrackbar("Hue Low", "Control", &hHigh, 179);
+//     // Saturation
+//     cvCreateTrackbar("Hue Low", "Control", &sLow, 255);
+//     cvCreateTrackbar("Hue Low", "Control", &sHigh, 255);
+//     // Value
+//     cvCreateTrackbar("Hue Low", "Control", &vLow, 255);
+//     cvCreateTrackbar("Hue Low", "Control", &vHigh, 255);
+
+//     if (capture)
+//     {
+//         cout << "In capture ..." << endl;
+//         for (;;)
+//         {
+//             IplImage* iplImg = cvQueryFrame(capture);
+//             image = cvarrToMat(iplImg);
+//             if (!image.data)
+//             {
+//                 cout << "Could not open the frame" << endl;
+//                 return -1;
+//             }
+//             // HSV filter
+// //            cvtColor(image, imgHSV, COLOR_BGR2HSV);
+// //            Mat imgFiltered;
+
+//             imshow("result", image);
+//             if (waitKey(10) >= 0)
+//                 break;
+
+//             waitKey(20); // wait 30 milli-secs in total
+//         }
+
+//     }
+
+//     cvReleaseCapture(&capture);
+//     cvDestroyWindow("result");
+
+//     return 0;
+
 
 // void thresh_callback(int, void*)
 // {

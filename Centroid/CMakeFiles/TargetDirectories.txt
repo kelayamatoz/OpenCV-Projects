@@ -1,1 +1,1 @@
-/Users/tianzhao/Developers/GIT Projects/Centroid/CMakeFiles/centroid.dir
+/home/tianzhao/Development/OpenCV-Projects/Centroid/CMakeFiles/centroid.dir
