@@ -10,7 +10,6 @@ CMakeFiles/centroid.dir/centroid.cpp.o
  /usr/local/include/opencv2/core/affine.hpp
  /usr/local/include/opencv2/core/base.hpp
  /usr/local/include/opencv2/core/bufferpool.hpp
- /usr/local/include/opencv2/core/core.hpp
  /usr/local/include/opencv2/core/core_c.h
  /usr/local/include/opencv2/core/cvdef.h
  /usr/local/include/opencv2/core/cvstd.hpp
@@ -46,6 +45,7 @@ CMakeFiles/centroid.dir/centroid.cpp.o
  /usr/local/include/opencv2/ml.hpp
  /usr/local/include/opencv2/objdetect.hpp
  /usr/local/include/opencv2/objdetect/detection_based_tracker.hpp
+ /usr/local/include/opencv2/objdetect/objdetect.hpp
  /usr/local/include/opencv2/objdetect/objdetect_c.h
  /usr/local/include/opencv2/opencv.hpp
  /usr/local/include/opencv2/photo.hpp
