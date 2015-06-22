@@ -12,6 +12,8 @@ using namespace std;
 RNG rng(12345);
 
 int main() {
+    Mat rgbFrame, hsvFrame, grayFrame, cannyOutput;
+    int thresh = 100;
     VideoCapture stream1(0);
     namedWindow("contours", CV_WINDOW_AUTOSIZE);
     if (!stream1.isOpened())
@@ -19,11 +21,6 @@ int main() {
         cout << "cannot open camera";
         return -1;
     }
-
-    Mat rgbFrame, hsvFrame, grayFrame, cannyOutput;
-    cout << "Please enter threshold for finding edge. 0 <= thresh <= 255" << endl;
-    int thresh = 0;
-    cin >> thresh;
 
     while (true) {
         stream1.read(rgbFrame);
@@ -39,7 +36,6 @@ int main() {
         // morphological closing (removes small holes from the foreground)
         dilate(grayFrame, grayFrame, getStructuringElement(MORPH_ELLIPSE, Size(5,5)));
         erode(grayFrame, grayFrame, getStructuringElement(MORPH_ELLIPSE, Size(5,5)));
-        grayFrame = grayFrame;
 
         // getting countour from the grayFrame and keep the largest countour
         vector<vector<Point> > contours;
