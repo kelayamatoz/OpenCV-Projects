@@ -69,6 +69,7 @@ int main() {
             Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
             drawContours(drawing, newContours, i, color, 2, 8, hierarchy, 0, Point());
             circle(drawing, mc[i], 4, color, -1, 8, 0);
+            cout << "centroid is at:" << mc[i] << endl;
         }
 
         imshow("contours", drawing + rgbFrame);
