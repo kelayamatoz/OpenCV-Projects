@@ -7,8 +7,6 @@
 #IncludeRegexTransform: 
 
 /home/tianzhao/Development/OpenCV-Projects/Centroid/centroid.cpp
-opencv2/objdetect/objdetect.hpp
--
 opencv2/highgui/highgui.hpp
 -
 opencv2/imgproc/imgproc.hpp
@@ -16,6 +14,8 @@ opencv2/imgproc/imgproc.hpp
 iostream
 -
 stdio.h
+-
+stdlib.h
 -
 
 /usr/local/include/opencv/cxcore.h
@@ -387,10 +387,6 @@ opencv2/objdetect/objdetect_c.h
 /usr/local/include/opencv2/objdetect/detection_based_tracker.hpp
 vector
 -
-
-/usr/local/include/opencv2/objdetect/objdetect.hpp
-opencv2/objdetect.hpp
-/usr/local/include/opencv2/objdetect/opencv2/objdetect.hpp
 
 /usr/local/include/opencv2/objdetect/objdetect_c.h
 opencv2/core/core_c.h
